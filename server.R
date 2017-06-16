@@ -14,11 +14,11 @@ shinyServer(function(input, output) {
     
     if(input$goButton){
       if(input$radio =="1"){
-        having = as.integer(input$target)-as.integer(input$savings)*(1+(as.integer(input$savingratio)*0.01))^(as.integer(input$period))
+        having = as.integer(input$target)-as.integer(input$savings)*(1+(as.double(input$savingratio)*0.01))^(as.integer(input$period))
         invest_ratio = c()
         if(having>0){
           for( i in 1:(as.integer(input$period)-1)){
-            invest_ratio[i] = (as.integer(input$tool1)*0.01)*(1+(as.integer(input$ratio1)*0.01))^i+(as.integer(input$tool2)*0.01)*(1+(as.integer(input$ratio2)*0.01))^i+(as.integer(input$tool3)*0.01)*(1+(as.integer(input$ratio3)*0.01))^i
+            invest_ratio[i] = (as.double(input$tool1)*0.01)*(1+(as.double(input$ratio1)*0.01))^i+(as.double(input$tool2)*0.01)*(1+(as.double(input$ratio2)*0.01))^i+(as.double(input$tool3)*0.01)*(1+(as.double(input$ratio3)*0.01))^i
           }
           final = having/sum(invest_ratio)
           final 
@@ -27,11 +27,11 @@ shinyServer(function(input, output) {
           final 
         }
       }else{
-        having = as.integer(input$target)-as.integer(input$savings)*(1+(as.integer(input$savingratio)*0.01))^(as.integer(input$period))
+        having = as.integer(input$target)-as.integer(input$savings)*(1+(as.double(input$savingratio)*0.01))^(as.integer(input$period))
         invest_ratio = c()
         if(having>0){
           for( i in 1:(as.integer(input$period)*12-1)){
-            invest_ratio[i] = (as.integer(input$tool1)*0.01)*(1+(as.integer(input$ratio1)*0.01/12))^i+(as.integer(input$tool2)*0.01)*(1+(as.integer(input$ratio2)*0.01/12))^i+(as.integer(input$tool3)*0.01)*(1+(as.integer(input$ratio3)*0.01/12))^i
+            invest_ratio[i] = (as.double(input$tool1)*0.01)*(1+(as.double(input$ratio1)*0.01/12))^i+(as.double(input$tool2)*0.01)*(1+(as.double(input$ratio2)*0.01/12))^i+(as.double(input$tool3)*0.01)*(1+(as.double(input$ratio3)*0.01/12))^i
           }
           final = having/sum(invest_ratio)
           final 
@@ -74,11 +74,11 @@ shinyServer(function(input, output) {
     
     if(input$goButton){
       if(input$radio =="1"){
-        having = as.integer(input$target)-as.integer(input$savings)*(1+(as.integer(input$savingratio)*0.01))^(as.integer(input$period))
+        having = as.integer(input$target)-as.integer(input$savings)*(1+(as.double(input$savingratio)*0.01))^(as.integer(input$period))
         invest_ratio = c()
         if(having >0){
           for( i in 1:(as.integer(input$period)-1)){
-            invest_ratio[i] = (as.integer(input$tool1)*0.01)*(1+(as.integer(input$ratio1)*0.01))^i+(as.integer(input$tool2)*0.01)*(1+(as.integer(input$ratio2)*0.01))^i+(as.integer(input$tool3)*0.01)*(1+(as.integer(input$ratio3)*0.01))^i
+            invest_ratio[i] = (as.double(input$tool1)*0.01)*(1+(as.double(input$ratio1)*0.01))^i+(as.double(input$tool2)*0.01)*(1+(as.double(input$ratio2)*0.01))^i+(as.double(input$tool3)*0.01)*(1+(as.double(input$ratio3)*0.01))^i
           }
           final = having/sum(invest_ratio)
           peryear = final*invest_ratio
@@ -98,11 +98,11 @@ shinyServer(function(input, output) {
         }
         
       }else{
-        having = as.integer(input$target)-as.integer(input$savings)*(1+(as.integer(input$savingratio)*0.01))^(as.integer(input$period))
+        having = as.integer(input$target)-as.integer(input$savings)*(1+(as.double(input$savingratio)*0.01))^(as.integer(input$period))
         invest_ratio = c()
         if(having >0){
           for( i in 1:(as.integer(input$period)*12-1)){
-            invest_ratio[i] = (as.integer(input$tool1)*0.01)*(1+(as.integer(input$ratio1)*0.01/12))^i+(as.integer(input$tool2)*0.01)*(1+(as.integer(input$ratio2)*0.01/12))^i+(as.integer(input$tool3)*0.01)*(1+(as.integer(input$ratio3)*0.01/12))^i
+            invest_ratio[i] = (as.double(input$tool1)*0.01)*(1+(as.double(input$ratio1)*0.01/12))^i+(as.double(input$tool2)*0.01)*(1+(as.double(input$ratio2)*0.01/12))^i+(as.double(input$tool3)*0.01)*(1+(as.double(input$ratio3)*0.01/12))^i
           }
           final = having/sum(invest_ratio)
           peryear = final*invest_ratio
@@ -162,11 +162,11 @@ shinyServer(function(input, output) {
       #draw
       for( i in 1:(as.integer(input$period)-1)){
         #invest_ratio[i] = (as.integer(input$tool1)*0.01)*(1+(as.integer(input$ratio1)*0.01))^i+(as.integer(input$tool2)*0.01)*(1+(as.integer(input$ratio2)*0.01))^i+(as.integer(input$tool3)*0.01)*(1+(as.integer(input$ratio3)*0.01))^i
-        console1[i] = as.integer(final())*(as.integer(input$tool1)*0.01)*(1+(as.integer(input$ratio1)*0.01))^i
-        console2[i] = as.integer(final())*(as.integer(input$tool2)*0.01)*(1+(as.integer(input$ratio2)*0.01))^i
-        console3[i] = as.integer(final())*(as.integer(input$tool3)*0.01)*(1+(as.integer(input$ratio3)*0.01))^i
+        console1[i] = as.integer(final())*(as.double(input$tool1)*0.01)*(1+(as.double(input$ratio1)*0.01))^i
+        console2[i] = as.integer(final())*(as.double(input$tool2)*0.01)*(1+(as.double(input$ratio2)*0.01))^i
+        console3[i] = as.integer(final())*(as.double(input$tool3)*0.01)*(1+(as.double(input$ratio3)*0.01))^i
       }
-      savingconsole = as.integer(input$savings)*(1+(as.integer(input$savingratio)*0.01))^(as.integer(input$period))
+      savingconsole = as.integer(input$savings)*(1+(as.double(input$savingratio)*0.01))^(as.integer(input$period))
       
       console = c(sum(console1),sum(console2),sum(console3),savingconsole)
       ToolName = c("Tool1","Tool2","Tool3","Saving")
@@ -187,11 +187,11 @@ shinyServer(function(input, output) {
       #draw
       for( i in 1:(as.integer(input$period)*12-1)){
         #invest_ratio[i] = (as.integer(input$tool1)*0.01)*(1+(as.integer(input$ratio1)*0.01))^i+(as.integer(input$tool2)*0.01)*(1+(as.integer(input$ratio2)*0.01))^i+(as.integer(input$tool3)*0.01)*(1+(as.integer(input$ratio3)*0.01))^i
-        console1[i] = as.integer(final())*(as.integer(input$tool1)*0.01)*(1+(as.integer(input$ratio1)*0.01/12))^i
-        console2[i] = as.integer(final())*(as.integer(input$tool2)*0.01)*(1+(as.integer(input$ratio2)*0.01/12))^i
-        console3[i] = as.integer(final())*(as.integer(input$tool3)*0.01)*(1+(as.integer(input$ratio3)*0.01/12))^i
+        console1[i] = as.integer(final())*(as.double(input$tool1)*0.01)*(1+(as.double(input$ratio1)*0.01/12))^i
+        console2[i] = as.integer(final())*(as.double(input$tool2)*0.01)*(1+(as.double(input$ratio2)*0.01/12))^i
+        console3[i] = as.integer(final())*(as.double(input$tool3)*0.01)*(1+(as.double(input$ratio3)*0.01/12))^i
       }
-      savingconsole = as.integer(input$savings)*(1+(as.integer(input$savingratio)*0.01))^(as.integer(input$period))
+      savingconsole = as.integer(input$savings)*(1+(as.double(input$savingratio)*0.01))^(as.integer(input$period))
       
       console = c(sum(console1),sum(console2),sum(console3),savingconsole)
       ToolName = c("Tool1","Tool2","Tool3","Saving")
@@ -222,11 +222,11 @@ shinyServer(function(input, output) {
       #draw
       for( i in 1:(as.integer(input$period)-1)){
         #invest_ratio[i] = (as.integer(input$tool1)*0.01)*(1+(as.integer(input$ratio1)*0.01))^i+(as.integer(input$tool2)*0.01)*(1+(as.integer(input$ratio2)*0.01))^i+(as.integer(input$tool3)*0.01)*(1+(as.integer(input$ratio3)*0.01))^i
-        console1[i] = as.integer(final())*(as.integer(input$tool1)*0.01)*(1+(as.integer(input$ratio1)*0.01))^i
-        console2[i] = as.integer(final())*(as.integer(input$tool2)*0.01)*(1+(as.integer(input$ratio2)*0.01))^i
-        console3[i] = as.integer(final())*(as.integer(input$tool3)*0.01)*(1+(as.integer(input$ratio3)*0.01))^i
+        console1[i] = as.integer(final())*(as.double(input$tool1)*0.01)*(1+(as.double(input$ratio1)*0.01))^i
+        console2[i] = as.integer(final())*(as.double(input$tool2)*0.01)*(1+(as.double(input$ratio2)*0.01))^i
+        console3[i] = as.integer(final())*(as.double(input$tool3)*0.01)*(1+(as.double(input$ratio3)*0.01))^i
       }
-      savingconsole = as.integer(input$savings)*(1+(as.integer(input$savingratio)*0.01))^(as.integer(input$period))
+      savingconsole = as.integer(input$savings)*(1+(as.double(input$savingratio)*0.01))^(as.integer(input$period))
       
       console = c(sum(console1),sum(console2),sum(console3),savingconsole)
       ToolName = c("Tool1","Tool2","Tool3","Saving")
@@ -245,11 +245,11 @@ shinyServer(function(input, output) {
       #draw
       for( i in 1:(as.integer(input$period)*12-1)){
         #invest_ratio[i] = (as.integer(input$tool1)*0.01)*(1+(as.integer(input$ratio1)*0.01))^i+(as.integer(input$tool2)*0.01)*(1+(as.integer(input$ratio2)*0.01))^i+(as.integer(input$tool3)*0.01)*(1+(as.integer(input$ratio3)*0.01))^i
-        console1[i] = as.integer(final())*(as.integer(input$tool1)*0.01)*(1+(as.integer(input$ratio1)*0.01/12))^i
-        console2[i] = as.integer(final())*(as.integer(input$tool2)*0.01)*(1+(as.integer(input$ratio2)*0.01/12))^i
-        console3[i] = as.integer(final())*(as.integer(input$tool3)*0.01)*(1+(as.integer(input$ratio3)*0.01/12))^i
+        console1[i] = as.integer(final())*(as.double(input$tool1)*0.01)*(1+(as.double(input$ratio1)*0.01/12))^i
+        console2[i] = as.integer(final())*(as.double(input$tool2)*0.01)*(1+(as.double(input$ratio2)*0.01/12))^i
+        console3[i] = as.integer(final())*(as.double(input$tool3)*0.01)*(1+(as.double(input$ratio3)*0.01/12))^i
       }
-      savingconsole = as.integer(input$savings)*(1+(as.integer(input$savingratio)*0.01))^(as.integer(input$period))
+      savingconsole = as.integer(input$savings)*(1+(as.double(input$savingratio)*0.01))^(as.integer(input$period))
       
       console = c(sum(console1),sum(console2),sum(console3),savingconsole)
       ToolName = c("Tool1","Tool2","Tool3","Saving")
