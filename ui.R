@@ -5,11 +5,11 @@ shinyUI(fluidPage(
       textInput("target", "Target(NTD):", 0,width=300),
       div(style="display:inline-block",textInput("savings", "Savings(NTD):", 0,width=200)),
       div(style="display:inline-block",textInput("savingratio", "Saving ratio(%):", 0,width=200)),
-      div(),
+      div(),#換行
       div(style="display:inline-block",textInput("tool1", "Tool 1(%):", value = 0,width=120)),
       div(style="display:inline-block",textInput("tool2", "Tool 2(%):", value = 0,width=120)),
       div(style="display:inline-block",textInput("tool3", "Tool 3(%):", value = 0,width=120)),
-      
+      div(),#換行
       div(style="display:inline-block",textInput("ratio1", "ratio 1/year(%):", value = 0,width=120)),
       div(style="display:inline-block",textInput("ratio2", "ratio 2/year(%):", value = 0,width=120)),
       div(style="display:inline-block",textInput("ratio3", "ratio 3/year(%):", value = 0,width=120)),
@@ -37,7 +37,8 @@ shinyUI(fluidPage(
                  tags$style(type="text/css", "#text1 { height: 50px; width: 100%; text-align:center; font-size: 30px; display: block;}"),
                  column(12,dataTableOutput('contents')),
                  column(width=12,height=30,plotOutput("plot1")),
-                 column(width=12,height=30,plotOutput("plot2"))
+                 column(width=12,height=30,plotOutput("plot2")),
+                 column(width=12,height=30,plotOutput("plot3"))
                ) 
                
       )
