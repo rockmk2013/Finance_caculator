@@ -22,7 +22,11 @@ shinyUI(fluidPage(
       
       p('1. Enter the correspond number above'),
       
-      p('2. press GO! and output the report')
+      p('2. please enter the propotion of different tools in tool 1~3 '),
+      
+      p('3. please enter the interest rate of different tools in ratio 1~3 '),
+      
+      p('4. press GO! and output the report')
       
       
     
