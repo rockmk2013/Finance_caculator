@@ -10,6 +10,15 @@ library(grid) #for rendering a raster grob
 
 
 shinyServer(function(input, output) {
+  blank_theme <- theme_minimal()+
+    theme(
+      axis.title.x = element_blank(),
+      axis.title.y = element_blank(),
+      panel.border = element_blank(),
+      panel.grid=element_blank(),
+      axis.ticks = element_blank(),
+      plot.title=element_text(size=12, face="bold")
+    )
   final <- reactive({
     
     if(input$goButton){
@@ -17,7 +26,7 @@ shinyServer(function(input, output) {
         having = as.integer(input$target)-as.integer(input$savings)*(1+(as.double(input$savingratio)*0.01))^(as.integer(input$period))
         invest_ratio = c()
         if(having>0){
-          for( i in 1:(as.integer(input$period)-1)){
+          for( i in 1:(as.integer(input$period))){
             invest_ratio[i] = (as.double(input$tool1)*0.01)*(1+(as.double(input$ratio1)*0.01))^i+(as.double(input$tool2)*0.01)*(1+(as.double(input$ratio2)*0.01))^i+(as.double(input$tool3)*0.01)*(1+(as.double(input$ratio3)*0.01))^i
           }
           final = having/sum(invest_ratio)
@@ -30,7 +39,7 @@ shinyServer(function(input, output) {
         having = as.integer(input$target)-as.integer(input$savings)*(1+(as.double(input$savingratio)*0.01))^(as.integer(input$period))
         invest_ratio = c()
         if(having>0){
-          for( i in 1:(as.integer(input$period)*12-1)){
+          for( i in 1:(as.integer(input$period)*12)){
             invest_ratio[i] = (as.double(input$tool1)*0.01)*(1+(as.double(input$ratio1)*0.01/12))^i+(as.double(input$tool2)*0.01)*(1+(as.double(input$ratio2)*0.01/12))^i+(as.double(input$tool3)*0.01)*(1+(as.double(input$ratio3)*0.01/12))^i
           }
           final = having/sum(invest_ratio)
@@ -77,14 +86,14 @@ shinyServer(function(input, output) {
         having = as.integer(input$target)-as.integer(input$savings)*(1+(as.double(input$savingratio)*0.01))^(as.integer(input$period))
         invest_ratio = c()
         if(having >0){
-          for( i in 1:(as.integer(input$period)-1)){
+          for( i in 1:(as.integer(input$period))){
             invest_ratio[i] = (as.double(input$tool1)*0.01)*(1+(as.double(input$ratio1)*0.01))^i+(as.double(input$tool2)*0.01)*(1+(as.double(input$ratio2)*0.01))^i+(as.double(input$tool3)*0.01)*(1+(as.double(input$ratio3)*0.01))^i
           }
           final = having/sum(invest_ratio)
           peryear = final*invest_ratio
           #plot(peryear)
           peryear_new = c()
-          for(i in 1:(as.integer(input$period)-1)){
+          for(i in 1:(as.integer(input$period))){
             if(i==1){
               peryear_new[1] = peryear[1]
             }else{
@@ -101,14 +110,14 @@ shinyServer(function(input, output) {
         having = as.integer(input$target)-as.integer(input$savings)*(1+(as.double(input$savingratio)*0.01))^(as.integer(input$period))
         invest_ratio = c()
         if(having >0){
-          for( i in 1:(as.integer(input$period)*12-1)){
+          for( i in 1:(as.integer(input$period)*12)){
             invest_ratio[i] = (as.double(input$tool1)*0.01)*(1+(as.double(input$ratio1)*0.01/12))^i+(as.double(input$tool2)*0.01)*(1+(as.double(input$ratio2)*0.01/12))^i+(as.double(input$tool3)*0.01)*(1+(as.double(input$ratio3)*0.01/12))^i
           }
           final = having/sum(invest_ratio)
           peryear = final*invest_ratio
           #
           peryear_new = c()
-          for(i in 1:(as.integer(input$period)*12-1)){
+          for(i in 1:(as.integer(input$period)*12)){
             if(i==1){
               peryear_new[1] = peryear[1]
             }else{
@@ -131,25 +140,42 @@ shinyServer(function(input, output) {
       paste0("Saving is enough!") 
     }else if(input$radio =="1"){
       #draw
-      plot(peryear_new(),pch=20,lwd=5,las=1,ann = FALSE)
-      title(xlab = "year",ylab = "",main ="Saving Line")
-      lines(peryear_new(),col="red",lwd=2)
+      # plot(peryear_new(),pch=20,lwd=5,las=1,ann = FALSE)
+      # title(xlab = "year",ylab = "",main ="Saving Line")
+      # lines(peryear_new(),col="red",lwd=2)
+      #
+      year = c(1:length(peryear_new()))
+      
+      subset = data.frame(peryear_new(),year)
+      line<-ggplot(subset,aes(x=year,y=peryear_new()))+
+        geom_point(color="black",size=3)+
+        labs(x = "year",y= "")+
+        geom_line(aes(group=1),color="red",size=1)+
+        ggtitle("Saving Line")+
+        theme(plot.title=element_text(size=12, face="bold"))+
+        scale_y_continuous(labels=dollar)
+      print(line)
+      
     }else{
       #draw
-      plot(peryear_new(),pch=20,lwd=5,las=1,ann = FALSE,title(xlab = "year",ylab = "",main ="saving line" ))
-      title(xlab = "year",ylab = "",main ="Saving Line")
-      lines(peryear_new(),col="red",lwd=2)
+      # plot(peryear_new(),pch=20,lwd=5,las=1,ann = FALSE,title(xlab = "year",ylab = "",main ="saving line" ))
+      # title(xlab = "year",ylab = "",main ="Saving Line")
+      # lines(peryear_new(),col="red",lwd=2)
+      #
+      year = c(1:length(peryear_new()))
+      
+      subset = data.frame(peryear_new(),year)
+      line<-ggplot(subset,aes(x=year,y=peryear_new()))+
+        geom_point(color="black",size=3)+
+        labs(x = "year",y= "")+
+        geom_line(aes(group=1),color="red",size=1)+
+        ggtitle("Saving Line")+
+        theme(plot.title=element_text(size=12, face="bold"))+
+        scale_y_continuous(labels=dollar)
+      print(line)
     }
   })
-  blank_theme <- theme_minimal()+
-    theme(
-      axis.title.x = element_blank(),
-      axis.title.y = element_blank(),
-      panel.border = element_blank(),
-      panel.grid=element_blank(),
-      axis.ticks = element_blank(),
-      plot.title=element_text(size=12, face="bold")
-    )
+  
   output$plot2 <- renderPlot({
     console1 = c()
     console2 = c()
@@ -160,7 +186,7 @@ shinyServer(function(input, output) {
       paste0("Saving is enough!") 
     }else if(input$radio =="1"){
       #draw
-      for( i in 1:(as.integer(input$period)-1)){
+      for( i in 1:(as.integer(input$period))){
         #invest_ratio[i] = (as.integer(input$tool1)*0.01)*(1+(as.integer(input$ratio1)*0.01))^i+(as.integer(input$tool2)*0.01)*(1+(as.integer(input$ratio2)*0.01))^i+(as.integer(input$tool3)*0.01)*(1+(as.integer(input$ratio3)*0.01))^i
         console1[i] = as.integer(final())*(as.double(input$tool1)*0.01)*(1+(as.double(input$ratio1)*0.01))^i
         console2[i] = as.integer(final())*(as.double(input$tool2)*0.01)*(1+(as.double(input$ratio2)*0.01))^i
@@ -185,7 +211,7 @@ shinyServer(function(input, output) {
       print(pie)
     }else{
       #draw
-      for( i in 1:(as.integer(input$period)*12-1)){
+      for( i in 1:(as.integer(input$period)*12)){
         #invest_ratio[i] = (as.integer(input$tool1)*0.01)*(1+(as.integer(input$ratio1)*0.01))^i+(as.integer(input$tool2)*0.01)*(1+(as.integer(input$ratio2)*0.01))^i+(as.integer(input$tool3)*0.01)*(1+(as.integer(input$ratio3)*0.01))^i
         console1[i] = as.integer(final())*(as.double(input$tool1)*0.01)*(1+(as.double(input$ratio1)*0.01/12))^i
         console2[i] = as.integer(final())*(as.double(input$tool2)*0.01)*(1+(as.double(input$ratio2)*0.01/12))^i
@@ -220,7 +246,7 @@ shinyServer(function(input, output) {
       paste0("Saving is enough!") 
     }else if(input$radio =="1"){
       #draw
-      for( i in 1:(as.integer(input$period)-1)){
+      for( i in 1:(as.integer(input$period))){
         #invest_ratio[i] = (as.integer(input$tool1)*0.01)*(1+(as.integer(input$ratio1)*0.01))^i+(as.integer(input$tool2)*0.01)*(1+(as.integer(input$ratio2)*0.01))^i+(as.integer(input$tool3)*0.01)*(1+(as.integer(input$ratio3)*0.01))^i
         console1[i] = as.integer(final())*(as.double(input$tool1)*0.01)*(1+(as.double(input$ratio1)*0.01))^i
         console2[i] = as.integer(final())*(as.double(input$tool2)*0.01)*(1+(as.double(input$ratio2)*0.01))^i
@@ -235,15 +261,14 @@ shinyServer(function(input, output) {
       #pie(console,main = "Saving Piechart")
       bar<-ggplot(subset,aes(x=ToolName,y=console))+
         geom_bar(stat="identity",aes(fill=ToolName))+
-        xlab("Tool name")+ylab("percentage")+
+        xlab("Tool name")+ylab("")+
         ggtitle("Saving BarChart")+
-        scale_y_continuous(labels=percent)+
-        blank_theme+
-        theme(legend.position = "bottom")
+        scale_y_continuous(labels=dollar)+
+        theme(legend.position = "bottom",plot.title=element_text(size=12, face="bold"))
       print(bar)
     }else{
       #draw
-      for( i in 1:(as.integer(input$period)*12-1)){
+      for( i in 1:(as.integer(input$period)*12)){
         #invest_ratio[i] = (as.integer(input$tool1)*0.01)*(1+(as.integer(input$ratio1)*0.01))^i+(as.integer(input$tool2)*0.01)*(1+(as.integer(input$ratio2)*0.01))^i+(as.integer(input$tool3)*0.01)*(1+(as.integer(input$ratio3)*0.01))^i
         console1[i] = as.integer(final())*(as.double(input$tool1)*0.01)*(1+(as.double(input$ratio1)*0.01/12))^i
         console2[i] = as.integer(final())*(as.double(input$tool2)*0.01)*(1+(as.double(input$ratio2)*0.01/12))^i
@@ -257,11 +282,10 @@ shinyServer(function(input, output) {
       #print(console)
       bar<-ggplot(subset,aes(x=ToolName,y=console))+
         geom_bar(stat="identity",aes(fill=ToolName))+
-        xlab("Tool name")+ylab("percentage")+
+        xlab("Tool name")+ylab("")+
         ggtitle("Saving BarChart")+
-        scale_y_continuous(labels=percent)+
-        blank_theme+
-        theme(legend.position = "bottom")
+        scale_y_continuous(labels=dollar)+
+        theme(legend.position = "bottom",plot.title=element_text(size=12, face="bold"))
       print(bar)
     }
   })
